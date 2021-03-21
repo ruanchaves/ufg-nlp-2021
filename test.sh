@@ -1,5 +1,5 @@
 python run_glue.py \
-  --model_name_or_path neuralmind/bert-base-portuguese-cased \
+  --model_name_or_path neuralmind/bert-large-portuguese-cased \
   --do_train \
   --do_eval \
   --evaluation_strategy steps \
@@ -12,4 +12,4 @@ python run_glue.py \
   --learning_rate 5e-05 \
   --num_train_epochs 7.5 \
   --weight_decay 0.01 \
-  --output_dir ./submission
+  --output_dir ./submission_large
