@@ -7,6 +7,7 @@ do
       --model_name_or_path neuralmind/bert-large-portuguese-cased \
       --do_train \
       --do_eval \
+      --seed $seed \
       --evaluation_strategy steps \
       --eval_steps 500 \
       --save_strategy no \
