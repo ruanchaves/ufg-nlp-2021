@@ -501,7 +501,9 @@ def main():
                     ),
             hp_space=hp_space_fn,
             loggers=DEFAULT_LOGGERS + (WandbLogger, ),
-            time_budget_s=time_budget_s
+            time_budget_s=time_budget_s,
+            keep_checkpoints_num=1,
+            checkpoint_score_attr='eval_accuracy'
     )
 
     output_params_file = os.path.join(

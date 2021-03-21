@@ -1,5 +1,5 @@
 API_KEY=$API_KEY WANDB_PROJECT=$WANDB_PROJECT python ray_tune.py \
-  --model_name_or_path neuralmind/bert-base-portuguese-cased \
+  --model_name_or_path neuralmind/bert-large-portuguese-cased \
   --do_eval \
   --evaluation_strategy steps \
   --eval_steps 500 \
@@ -11,5 +11,5 @@ API_KEY=$API_KEY WANDB_PROJECT=$WANDB_PROJECT python ray_tune.py \
   --learning_rate 2e-5 \
   --num_train_epochs 10 \
   --weight_decay 0.01 \
-  --output_dir /home/params \
+  --output_dir /home/params_large \
   --time_budget_s $TIME_BUDGET
