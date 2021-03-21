@@ -88,12 +88,13 @@ def build_ensemble(folder, ensemble_prefix, submission_prefix):
         occurence_count = Counter(iterable)
         return occurence_count.most_common(1)[0][0]
 
-    files = [os.path.join(folder, x) for x in os.listdir(folder)]
+    files = [x for x in os.listdir(folder)]
     content = []
     for filename in files:
         if filename.startswith(submission_prefix):
+            filename_path = os.path.join(folder, filename)
             print('reading {0}'.format(filename))
-            with open(filename, 'r') as f:
+            with open(filename_path, 'r') as f:
                 text = f.read().split('\n')
                 content.append(text)
 
