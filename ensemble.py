@@ -103,7 +103,9 @@ def build_ensemble(folder, ensemble_prefix, submission_prefix):
     for i in range(len(content[0])):
         if i:
             cands = [x[i] for x in content]
+            print(cands)
             cands = [x.split(',') for x in cands]
+            print(cands)
             row_idx = cands[0][0]
             cand_labels = [x[1].strip() for x in cands]
             top_label = most_frequent(cand_labels)
