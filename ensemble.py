@@ -123,6 +123,7 @@ def main():
         number = [word for word in filename.split() if word.isdigit()]
         number = ''.join(number)
         output_file = args.submission_prefix + number + '.csv'
+        print(filename, output_file)
         save_preds(array, args.dataset, output_file)
 
     build_ensemble(args.folder, args.ensemble_prefix)
