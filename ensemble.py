@@ -92,8 +92,10 @@ def build_ensemble(folder, ensemble_prefix, submission_prefix):
     content = []
     for filename in files:
         if filename.startswith(submission_prefix):
+            print('reading {0}'.format(filename))
             with open(filename, 'r') as f:
-                content.append(f.read().split('\n'))
+                text = f.read().split('\n')
+                content.append(text)
 
     output = ['Id,Category']
 
