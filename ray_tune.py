@@ -43,13 +43,11 @@ from transformers.trainer_utils import get_last_checkpoint, is_main_process
 
 ## Custom imports 
 import pandas as pd
-from coliee_task2.utils import make_compute_metrics
 from ray import tune
 from ray.tune.schedulers import PopulationBasedTraining
 from ray.tune.logger import DEFAULT_LOGGERS
 from ray.tune.integration.wandb import WandbLogger
-import inspect
-from typing import Dict
+from typing import Dict, List, Any
 
 task_to_keys = {
     "cola": ("sentence", None),
