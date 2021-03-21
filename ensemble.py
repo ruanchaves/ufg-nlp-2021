@@ -126,7 +126,7 @@ def main():
         output_file = args.submission_prefix + number + '.csv'
         save_preds(array, args.dataset, output_file)
 
-    build_ensemble(args.folder)
+    build_ensemble(args.folder, args.ensemble_prefix)
 
 
 if __name__ == '__main__':
