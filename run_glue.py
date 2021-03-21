@@ -43,7 +43,6 @@ from transformers.trainer_utils import get_last_checkpoint, is_main_process
 
 ## Custom imports 
 import pandas as pd
-from coliee_task2.utils import make_compute_metrics
 
 task_to_keys = {
     "cola": ("sentence", None),
