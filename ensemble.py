@@ -91,7 +91,7 @@ def build_ensemble(folder, ensemble_prefix, submission_prefix):
     files = [x for x in os.listdir(folder)]
     content = []
     for filename in files:
-        if filename.startswith(submission_prefix):
+        if filename.startswith(submission_prefix) and filename.endswith('.csv'):
             filename_path = os.path.join(folder, filename)
             print('reading {0}'.format(filename))
             with open(filename_path, 'r') as f:
