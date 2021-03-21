@@ -82,7 +82,7 @@ def get_args():
     return args
 
 
-def build_ensemble(folder, prefix):
+def build_ensemble(folder, ensemble_prefix, submission_prefix):
 
     def most_frequent(iterable):
         occurence_count = Counter(iterable)
@@ -91,8 +91,9 @@ def build_ensemble(folder, prefix):
     files = [os.path.join(folder, x) for x in os.listdir(folder)]
     content = []
     for filename in files:
-        with open(filename, 'r') as f:
-            content.append(f.read().split('\n'))
+        if filename.startswith(submission_prefix):
+            with open(filename, 'r') as f:
+                content.append(f.read().split('\n'))
 
     output = ['Id,Category']
 
@@ -108,7 +109,7 @@ def build_ensemble(folder, prefix):
 
     output = '\n'.join(output)
     timestamp = str(int(time.time()))
-    destination = prefix + timestamp + '.csv'
+    destination = ensemble_prefix + timestamp + '.csv'
     with open(destination, 'w+') as f:
         print(output, file=f)
 
@@ -121,11 +122,11 @@ def main():
     for idx, array in enumerate(pred_arrays):
         filename = str(preds[idx])
         number = ''.join([x for x in filename if x.isdigit()])
-        output_file = args.submission_prefix + number + '.csv'
+        output_file = args.submission_prefix + '_' + number + '.csv'
         print(filename, output_file)
         save_preds(array, args.dataset, output_file)
 
-    build_ensemble(args.folder, args.ensemble_prefix)
+    build_ensemble(args.folder, args.ensemble_prefix, args.submission_prefix)
 
 
 if __name__ == '__main__':
