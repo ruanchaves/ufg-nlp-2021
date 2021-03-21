@@ -60,6 +60,15 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
+class CustomArguments:
+
+    preds_dir: Optional[str] = field(
+        default='./preds',
+        metadata={"help": "Where to save eval predictions."},
+    )
+
+
+@dataclass
 class DataTrainingArguments:
     """
     Arguments pertaining to what data we are going to input our model for training and eval.
@@ -155,13 +164,13 @@ def main():
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
-    parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
+    parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments, CustomArguments))
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
         # If we pass only one argument to the script and it's the path to a json file,
         # let's parse it to get our arguments.
-        model_args, data_args, training_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
+        model_args, data_args, training_args, custom_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
     else:
-        model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+        model_args, data_args, training_args, custom_args = parser.parse_args_into_dataclasses()
 
     # Detecting last checkpoint.
     last_checkpoint = None
@@ -367,12 +376,18 @@ def main():
     # You can define your custom compute_metrics function. It takes an `EvalPrediction` object (a namedtuple with a
     # predictions and label_ids field) and has to return a dictionary string to float.
 
-    def make_compute_metrics(training_args):
+    def make_compute_metrics(custom_args):
         def compute_metrics(p: EvalPrediction):
             preds = p.predictions[0] if isinstance(p.predictions, tuple) else p.predictions
 
             filename = 'preds_{0}.npy'.format(int(time.time()))
-            path = os.path.join(training_args.output_dir, filename)
+
+            try:
+                os.mkdir(custom_args.preds_dir)
+            except FileExistsError:
+                pass
+
+            path = os.path.join(custom_args.preds_dir, filename)
             np.save(path, preds)
 
             preds = np.squeeze(preds) if is_regression else np.argmax(preds, axis=1)
@@ -387,7 +402,7 @@ def main():
                 return {"accuracy": (preds == p.label_ids).astype(np.float32).mean().item()}
         return compute_metrics
 
-    compute_metrics = make_compute_metrics(training_args)
+    compute_metrics = make_compute_metrics(custom_args)
 
     # Data collator will default to DataCollatorWithPadding, so we change it if we already did the padding.
     if data_args.pad_to_max_length:
