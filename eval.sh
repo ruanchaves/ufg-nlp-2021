@@ -10,8 +10,6 @@ API_KEY=$API_KEY WANDB_PROJECT=$WANDB_PROJECT python ray_tune.py \
   --gradient_accumulation_steps 8 \
   --learning_rate 2e-5 \
   --num_train_epochs 10 \
-  --warmup_steps 500 \
   --weight_decay 0.01 \
-  --adam_epsilon 1e-6 \
   --output_dir /home/params \
   --time_budget_s $TIME_BUDGET
