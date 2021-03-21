@@ -120,10 +120,19 @@ def build_ensemble(folder, ensemble_prefix, submission_prefix):
         print(output, file=f)
 
 
+def build_soft_ensemble(preds, dataset, ensemble_prefix):
+    ensemble_array = np.sum(preds, axis=0)
+    timestamp = str(int(time.time()))
+    destination = 'soft_' + ensemble_prefix + timestamp + '.csv'
+    save_preds(ensemble_array, dataset, destination)
+
+
 def main():
     args = get_args()
     preds = get_preds(args.folder, args.submission_prefix, args.preds_prefix)
     pred_arrays = [np.load(x) for x in preds]
+
+    build_soft_ensemble(pred_arrays, args.ensemble_prefix)
 
     for idx, array in enumerate(pred_arrays):
         filename = str(preds[idx])
@@ -132,6 +141,7 @@ def main():
         print(filename, output_file)
         save_preds(array, args.dataset, output_file)
 
+    build_soft_ensemble(pred_arrays, args.dataset, args.ensemble_prefix)
     build_ensemble(args.folder, args.ensemble_prefix, args.submission_prefix)
 
 
