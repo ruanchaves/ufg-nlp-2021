@@ -7,7 +7,6 @@ from collections import Counter
 
 
 def save_preds(source, dataset, output):
-    a = np.load(source)
     df = pd.read_csv(dataset)
     ids = df['Id'].values.tolist()
     preds = ['Id,Category']
@@ -16,7 +15,7 @@ def save_preds(source, dataset, output):
         1: 'Neutro',
         2: 'Positivo'
     }
-    a = np.argmax(a, axis=1)
+    a = np.argmax(source, axis=1)
     for idx, item in enumerate(a):
         row = '{0},{1}'.format(ids[idx], label_dict[item])
         preds.append(row)
