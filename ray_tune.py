@@ -495,7 +495,7 @@ def main():
             backend="ray",
             scheduler=PopulationBasedTraining(
                         time_attr='time_total_s',
-                        metric='accuracy',
+                        metric='eval_accuracy',
                         mode='max',
                         perturbation_interval=600.0
                     ),
