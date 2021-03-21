@@ -5,7 +5,9 @@ for root, dirs, files in os.walk(".", topdown=False):
       directory = os.path.join(root, name)
       if 'submission_large' in directory:
           preds = os.listdir(directory)
-          preds = [ x for x in preds if x.startswith('preds')]
-          preds = sorted(preds)[-1]
           print(preds)
+          preds = [ x for x in preds if x.startswith('preds')]
+          if preds:
+            preds = sorted(preds)[-1]
+            print(preds)
         
