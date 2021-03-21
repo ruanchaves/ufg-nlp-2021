@@ -1,7 +1,7 @@
 while true
 do
   seed=$(shuf -i1-100 -n1)
-  if [[ ! -f ./submission_large_$seed ]]
+  if [[ ! -d ./submission_large_$seed ]]
   then
     python run_glue.py \
       --model_name_or_path neuralmind/bert-large-portuguese-cased \
