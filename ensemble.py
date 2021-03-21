@@ -119,9 +119,8 @@ def main():
     pred_arrays = [np.load(x) for x in preds]
 
     for idx, array in enumerate(pred_arrays):
-        filename = preds[idx]
-        number = [word for word in filename.split() if word.isdigit()]
-        number = ''.join(number)
+        filename = str(preds[idx])
+        number = ''.join([x for x in filename if x.isdigit()])
         output_file = args.submission_prefix + number + '.csv'
         print(filename, output_file)
         save_preds(array, args.dataset, output_file)
