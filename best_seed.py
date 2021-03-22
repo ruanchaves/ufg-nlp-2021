@@ -484,6 +484,7 @@ def main():
             scheduler=HyperBandScheduler(
                         time_attr='time_total_s',
                         metric='eval_accuracy',
+                        mode='max',
                         max_t=600,
                     ),
             hp_space=hp_space_fn,
