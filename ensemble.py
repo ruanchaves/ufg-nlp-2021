@@ -24,12 +24,12 @@ def save_preds(source, dataset, output):
         print(preds, file=f)
 
 
-def get_preds(root_dir, submission_prefix, preds_prefix):
+def get_preds(root_dir, submission_prefix, preds_prefix, exclude):
     output = []
     for root, dirs, files in os.walk(root_dir, topdown=False):
         for name in dirs:
             directory = os.path.join(root, name)
-            if submission_prefix in directory:
+            if name.startswith(submission_prefix) and name != exclude:
                 preds = os.listdir(directory)
                 preds = [x for x in preds if x.startswith(preds_prefix)]
                 if preds:
@@ -76,6 +76,12 @@ def get_args():
         '--ensemble_prefix',
         type=str,
         default='ensemble_'
+    )
+
+    parser.add_argument(
+        '--exclude',
+        type=str,
+        default=""
     )
 
     args = parser.parse_args()
@@ -129,7 +135,11 @@ def build_soft_ensemble(preds, dataset, ensemble_prefix):
 
 def main():
     args = get_args()
-    preds = get_preds(args.folder, args.submission_prefix, args.preds_prefix)
+    preds = get_preds(
+        args.folder,
+        args.submission_prefix,
+        args.preds_prefix,
+        args.exclude)
     pred_arrays = [np.load(x) for x in preds]
 
     build_soft_ensemble(pred_arrays, args.ensemble_prefix)
