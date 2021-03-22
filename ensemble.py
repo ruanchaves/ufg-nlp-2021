@@ -142,8 +142,6 @@ def main():
         args.exclude)
     pred_arrays = [np.load(x) for x in preds]
 
-    build_soft_ensemble(pred_arrays, args.ensemble_prefix)
-
     for idx, array in enumerate(pred_arrays):
         filename = str(preds[idx])
         number = ''.join([x for x in filename if x.isdigit()])
